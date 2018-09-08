@@ -1,7 +1,9 @@
 require('./config/config')
+require('colors')
 
 const express = require('express')
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
 
 const app = express()
 
@@ -11,34 +13,14 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.get('/user', (req, res) => {
-  res.json({
-    user: 'alex'
-  })
-})
+// usando las rutas configuradas
+app.use(require('./routes/users'))
 
-app.delete('/user', (req, res) => {
-  res.send('esto es delete')
-})
-
-app.post('/user', (req, res) => {
-  let body = req.body
-
-  if (body.nom === undefined) {
-    res.status(400).json({
-      ok: false,
-      message: 'Error, no se hallo la variable nom'
-    })
-  } else {
-    res.json(body)
+mongoose.connect(process.env.URLDB, (err, resp) => {
+  if (err) {
+    throw err
   }
-})
-
-app.put('/user/:id', (req, res) => {
-  let id = req.params.id
-  res.json({
-    id
-  })
+  console.log('Mongo corriendo de forma correcta'.green)
 })
 
 app.listen(process.env.PORT, () => console.log(`escuchando por el puerto ${process.env.PORT}`))
