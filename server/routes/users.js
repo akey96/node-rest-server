@@ -105,7 +105,7 @@ app.post('/user', [verificaToken, verificaAdminRole], (req, res) => {
   let body = req.body
 
   let user = new User({
-    nom: body.nom,
+    name: body.name,
     email: body.email,
     password: bcript.hashSync(body.password, 10),
     role: body.role
@@ -128,7 +128,7 @@ app.post('/user', [verificaToken, verificaAdminRole], (req, res) => {
 
 app.put('/user/:id', [verificaToken, verificaAdminRole], (req, res) => {
   let id = req.params.id
-  let body = _.pick(req.body, ['nom', 'email', 'img', 'role', 'state'])
+  let body = _.pick(req.body, ['name', 'email', 'img', 'role', 'state'])
 
   // definimo tambien validaciones para que pueda retornar todo el objeto mofificado, y que corra las validaciones definidos en el modelo
   User.findByIdAndUpdate(id, body, {new: true, runValidators: true}, (err, userDB) => {

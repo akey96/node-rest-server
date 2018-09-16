@@ -10,7 +10,7 @@ let rolesSuccess = {
 }
 
 let userSchema = new Schema({
-  nom: {
+  name: {
     type: String,
     required: [true, 'El nombre es necesario']
   },
