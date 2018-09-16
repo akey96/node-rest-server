@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // usando las rutas configuradas
-app.use(require('./routes/users'))
+app.use(require('./routes/index'))
 
 mongoose.connect(process.env.URLDB, (err, resp) => {
   if (err) {

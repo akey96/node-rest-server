@@ -1,6 +1,9 @@
 const express = require('express')
 // importamos modelo USer de mongo
 const User = require('../models/user')
+
+const {verificaToken, verificaAdminRole} = require('../middleware/authentication')
+
 // paqute que nos permite la incriptacioin de una via
 const bcript = require('bcrypt')
 
@@ -9,7 +12,7 @@ const _ = require('underscore')
 
 const app = express()
 
-app.get('/user', (req, res) => {
+app.get('/user', verificaToken, (req, res) => {
   // query nos devuleve los parametros pasados en la url
   let desde = Number(req.query.desde) || 0
   let limit = Number(req.query.limit) || 5
@@ -34,7 +37,7 @@ app.get('/user', (req, res) => {
     })
 })
 
-app.delete('/user/:id', (req, res) => {
+app.delete('/user/:id', [verificaToken, verificaAdminRole], (req, res) => {
   let id = req.params.id
   let stateModified = {
     state: false
@@ -98,7 +101,7 @@ app.delete('/user/:id', (req, res) => {
   // })
 })
 
-app.post('/user', (req, res) => {
+app.post('/user', [verificaToken, verificaAdminRole], (req, res) => {
   let body = req.body
 
   let user = new User({
@@ -123,7 +126,7 @@ app.post('/user', (req, res) => {
   })
 })
 
-app.put('/user/:id', (req, res) => {
+app.put('/user/:id', [verificaToken, verificaAdminRole], (req, res) => {
   let id = req.params.id
   let body = _.pick(req.body, ['nom', 'email', 'img', 'role', 'state'])
 
