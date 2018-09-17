@@ -17,7 +17,7 @@ app.get('/user', verificaToken, (req, res) => {
   let desde = Number(req.query.desde) || 0
   let limit = Number(req.query.limit) || 5
 
-  User.find({state: true}, 'nom email state google role')
+  User.find({state: true}, 'name email state google role')
     .skip(desde) // desde que regitro a empezar a devolver
     .limit(limit) // definimos el limite de registros a devolver
     .exec((err, users) => {

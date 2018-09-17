@@ -74,6 +74,7 @@ app.post('/google', async (req, res) => {
       user.name = googleUser.name
       user.email = googleUser.email
       user.img = googleUser.img
+      user.google = true
       user.password = ':)'
 
       user.save((err, userDB) => {
