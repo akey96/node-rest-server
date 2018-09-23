@@ -138,7 +138,6 @@ app.put('/user/:id', [verificaToken, verificaAdminRole], (req, res) => {
         err
       })
     }
-
     res.json({
       ok: true,
       user: userDB
