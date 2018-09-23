@@ -12,9 +12,9 @@ app.post('/product', verificaToken, (req, res) => {
     description: body.description,
     img: body.img,
     available: body.available,
-    category: body.category
+    category: body.category,
+    user: req.user._id
   })
-
   product.save((err, productDB) => {
     if (err) {
       return res.status(500).json({
