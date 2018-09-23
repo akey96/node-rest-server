@@ -4,6 +4,21 @@
 
 const jwt = require('jsonwebtoken')
 
+let verificaTokenImg = (req, res, next) => {
+  let token = req.query.Authorization
+  jwt.verify(token, process.env.SEED, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({
+        ok: false,
+        err: 'Token no valido'
+      })
+    }
+    // hacenos que despues que pase este midleware podamos acceder a la informacion del usuario logueado
+    req.user = decoded.user
+    next()
+  })
+}
+
 let verificaToken = (req, res, next) => {
   // recuperamos el token pasado por los HEADERS de la peticion
   let token = req.get('Authorization')
@@ -36,5 +51,6 @@ let verificaAdminRole = (req, res, next) => {
 
 module.exports = {
   verificaToken,
-  verificaAdminRole
+  verificaAdminRole,
+  verificaTokenImg
 }
